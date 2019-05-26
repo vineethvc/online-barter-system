@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./gateway:/usr/src/app
+    networks:
+      - app-network
+    links:
+      - users
+
+  users:
+    build:
+      context: ./users
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./users:/usr/src/app
+    networks:
+      - app-network
+    environment:
+      DATABASE_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: longnight
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: pass123
+    depends_on:      
+      - db
+
+  db:
+    build: ./db
+    environment:
+      MYSQL_DATABASE: longnight
+      MYSQL_ROOT_PASSWORD: pass123
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: pass123
+      DATABASE_HOST: db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
