@@ -14,4 +14,22 @@ CREATE TABLE product (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE advert (
+    id INT NOT NULL AUTO_INCREMENT,
+    product_id INT NOT NULL,
+    posted_by VARCHAR(255) NOT NULL,
+    action INT NOT NULL,
+    quantity INT NOT NULL,
+    PRIMARY KEY (id)
+);
 
+CREATE TABLE action (
+    action_id INT NOT NULL AUTO_INCREMENT,
+    action_name VARCHAR(255) NOT NULL,
+    action_description VARCHAR(255),
+    PRIMARY KEY (action_id)
+);
+
+ALTER TABLE advert ADD CONSTRAINT FK_adv_prod FOREIGN KEY (product_id) REFERENCES product(id);
+ALTER TABLE advert ADD CONSTRAINT FK_adv_action FOREIGN KEY (action) REFERENCES action(action_id); 
+ALTER TABLE advert ADD CONSTRAINT FK_advuser FOREIGN KEY (posted_by) REFERENCES user(email); 

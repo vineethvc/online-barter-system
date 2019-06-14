@@ -9,10 +9,8 @@ VOLUME [ "/usr/src/app" ]
 RUN npm i -g nodemon
 
 ENV NODE_ENV=development
-ENV PORT=5000
-ENV USERS=http://users:3000/api/users
-ENV PRODUCTS=http://products:4000/api/products
+ENV PORT=4000
 
-EXPOSE 5000
+EXPOSE 4000
 
 CMD [ "nodemon", "-L", "src/index.js"]

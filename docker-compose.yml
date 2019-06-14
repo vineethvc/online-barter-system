@@ -33,6 +33,25 @@ services:
     depends_on:      
       - db
 
+  products:
+    build:
+      context: ./products
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./products:/usr/src/app
+    networks:
+      - app-network
+    environment:
+      DATABASE_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: longnight
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: pass123
+    depends_on:      
+      - db
+
   db:
     build: ./db
     environment:
