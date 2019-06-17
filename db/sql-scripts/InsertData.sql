@@ -6,3 +6,7 @@ VALUES
 INSERT INTO product (product_name, product_description, cat_id)
 VALUES
     ('razor phone 2', 'with 120Hz Ultramotion display', 1235);
+
+INSERT INTO action (action_name,action_description) 
+VALUES 
+	('Sell','Sell items');

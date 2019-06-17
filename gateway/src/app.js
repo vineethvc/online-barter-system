@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var { catchAll, notFound } = require('./error');
 var usersRouter = require('./users/users.router');
+var productsRouter = require('./products/products.router');
 var cors = require('cors');
 
 var app = express();
@@ -14,6 +15,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', usersRouter);
+app.use('/api/products', productsRouter);
 
 app.use(notFound);
 app.use(catchAll);

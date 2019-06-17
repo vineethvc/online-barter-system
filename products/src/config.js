@@ -2,9 +2,9 @@
 
 require('dotenv').config();
 
-const environments = ['NODE_ENV', 'PORT', 'USERS','PRODUCTS'];
+const environment = ['NODE_ENV', 'PORT'];
 
-environments.forEach((name) => {
+environment.forEach((name) => {
   if (!process.env[name]) {
     throw new Error(`${name}: ${process.env[name]}`);
   }
@@ -12,7 +12,5 @@ environments.forEach((name) => {
 
 module.exports = {
   NODE_ENV: process.env.NODE_ENV,
-  PORT: process.env.PORT,
-  USERS: process.env.USERS,
-  PRODUCTS: process.env.PRODUCTS
+  PORT: process.env.PORT
 };
