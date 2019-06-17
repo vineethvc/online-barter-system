@@ -45,7 +45,7 @@ $ docker-compose down
 
 # Rest API
 
-### Heroes Service
+### Users Service
 
 | Method | Endpoint        | Description                |
 | ------ | --------------- | -------------------------- |

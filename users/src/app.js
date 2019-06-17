@@ -1,11 +1,13 @@
-const bodyParser = require('body-parser');
-const express = require('express');
+var express = require('express');
+var session = require('express-session');
+var bodyParser = require('body-parser');
+var userRouter = require('./user/user.router');
+var cors = require('cors');
 
-const app = express();
-const userRouter = require('./user/user.router');
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+var app = express();
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ type: 'application/json'}))
 
 app.get('/', (req, res) => {
   res.json({ message: 'It works!!!' });

@@ -1,12 +1,13 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+var express = require('express');
+var bodyParser = require('body-parser');
+var { catchAll, notFound } = require('./error');
+var usersRouter = require('./users/users.router');
+var cors = require('cors');
 
-const app = express();
-const { catchAll, notFound } = require('./error');
-const usersRouter = require('./users/users.router');
-
-app.use(bodyParser.urlencoded({ extended: false }));
+var app = express();
+app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   res.json({ message: 'GATEWAY!' });

@@ -1,48 +1,126 @@
-var mysql = require("mysql");
-var connection = mysql.createConnection({
-    host            : process.env.DATABASE_HOST,
-    port            : process.env.MYSQL_PORT,
-    user            : process.env.MYSQL_USER,
-    password        : process.env.MYSQL_PASSWORD,
-    database        : process.env.MYSQL_DATABASE
-});
-
-connection.connect(function(err){
-  if(err){
-    console.error("error connecting: " + err.stack);
-    return process.exit(22); //consistently exit so the Docker container will restart until it connects to the sql db
-  }
-  console.log("connected as id " + connection.threadId);
-});
-
+var connection  = require('../repository');
+const jwt = require('jsonwebtoken');
 
 module.exports.create = async (req, res) => {
-  
+  var userEmail = req.body.email;
+  var userPassword = req.body.password;
+  var userFirstName = req.body.first_name;
+  var userLastName = req.body.last_name;
+
+  if (userEmail == undefined || userEmail == '') {
+    res.send({
+      error: 'email cannot be empty'
+    });
+  } else if (userPassword == undefined || userPassword == '') {
+    res.send({
+      error: 'password cannot be empty'
+    });
+  } else {
+    var sql =
+      'INSERT INTO user(email, password, first_name, last_name) VALUES(?, ?, ?, ?);';
+    var values = [userEmail, userPassword, userFirstName, userLastName];
+    connection.query(sql, values, function(err, result) {
+      if (err) throw err;
+      console.log('creatUser--- ' + result.affectedRows);
+      res.json(result);
+    });
+  }
 };
 
 module.exports.list = async (req, res) => {
-  var userEmail = req.params.email;
-  var userQuery = 'select * from user';
-
-  console.log('userID:' + userEmail);
-  console.log('userQuery:' + userQuery);
-
-  connection.query(userQuery, userEmail, function(error, results, fields){
-    if(error) throw error;
-
-    console.log("results---", results[0]);
-    res.json(results[0]);
+  connection.query('SELECT * FROM user', function(err, result, fields) {
+    if (err) throw err;
+    console.log('getAllUsers---', result);
+    res.json(result);
   });
 };
 
 module.exports.remove = async (req, res) => {
-  
+  var userEmail = req.params.email;
+  var deleteUserQuery = 'DELETE FROM user WHERE email = ?';
+
+  connection.query(deleteUserQuery, userEmail, function(err, result) {
+    if (err) throw err;
+    console.log('deleteUser ' + result.affectedRows);
+    res.json(result);
+  });
 };
 
 module.exports.update = async (req, res) => {
-  
+  var userEmail = req.body.email;
+  var userFirstName = req.body.first_name;
+  var userLastName = req.body.last_name;
+
+  var sql = 'UPDATE user set first_name = ?, last_name = ?  WHERE email = ?';
+
+  connection.query(sql, [userFirstName, userLastName, userEmail], function(
+    err,
+    result
+  ) {
+    if (err) throw err;
+    console.log('updateUser ' + result.affectedRows);
+    res.json(result);
+  });
 };
 
 module.exports.view = async (req, res) => {
- 
+  var userEmail = req.params.email;
+  var getUserQuery = 'SELECT * FROM user WHERE email = ?';
+
+  connection.query(getUserQuery, userEmail, function(err, result) {
+    if (err) throw err;
+    console.log('getUserByEmail---', result);
+    res.json(result);
+  });
+};
+
+module.exports.login = async (req, res) => {
+  var email = req.body.email;
+  var password = req.body.password;
+  
+  var loginUserQuery = 'SELECT * FROM user WHERE email = ?';
+
+  connection.query(loginUserQuery, email, function(err, result) {
+    console.log('result--', result);
+    if (err) {
+      res.send({
+        code: 400,
+        failed: 'error ocurred'
+      });
+    } else {
+      if (result.length > 0) {
+        if (result[0].password == password) {
+          const token = jwt.sign(email, "addjsonwebtokensecret");
+          res.send({
+            code: 200,
+            success: 'login successful',
+            token: token
+          });
+        } else {
+          res.send({
+            code: 204,
+            success: 'Email and password does not match'
+          });
+        }
+      } else {
+        res.send({
+          code: 204,
+          success: 'Email does not exits'
+        });
+      }
+     
+    }
+  });
+};
+
+module.exports.logout = async (req, res) => {
+  req.session.destroy((err) => {
+      if (err) {
+        return console.log(err);
+      }
+      res.send({
+        code: 200,
+        success: 'User logged out successfully'
+      });
+    });
 };

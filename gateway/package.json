@@ -2,8 +2,6 @@
   "name": "gateway",
   "version": "1.0.0",
   "description": "A playground for Express Gateway and Docker.",
-  "author": "Roberto Achar <robertoachar@gmail.com>",
-  "homepage": "https://github.com/robertoachar/docker-express-gateway#readme",
   "keywords": [
     "node"
   ],
@@ -15,16 +13,10 @@
     "lint": "eslint src/**/*.js",
     "start": "nodemon src/index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/robertoachar/docker-express-gateway.git"
-  },
-  "bugs": {
-    "url": "https://github.com/robertoachar/docker-express-gateway/issues"
-  },
   "dependencies": {
     "axios": "0.18.0",
     "body-parser": "1.18.2",
+    "cors": "2.8.5",
     "dotenv": "5.0.1",
     "express": "4.16.3",
     "express-catch-errors": "0.1.0",
@@ -38,6 +30,5 @@
     "eslint-plugin-prettier": "2.6.0",
     "nodemon": "1.17.3",
     "prettier": "1.12.1"
-  },
-  "license": "MIT"
+  }
 }
