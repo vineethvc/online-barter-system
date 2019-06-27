@@ -30,6 +30,27 @@ CREATE TABLE action (
     PRIMARY KEY (action_id)
 );
 
+CREATE TABLE review (
+    id INT NOT NULL AUTO_INCREMENT,
+    review_advert_id INT NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    rating INT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE barter (
+    id INT NOT NULL AUTO_INCREMENT,
+    barter_adv_id INT NOT NULL,
+    barterer VARCHAR(255) NOT NULL,
+    barteree VARCHAR(255) NOT NULL,
+    barter_status VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 ALTER TABLE advert ADD CONSTRAINT FK_adv_prod FOREIGN KEY (product_id) REFERENCES product(id);
 ALTER TABLE advert ADD CONSTRAINT FK_adv_action FOREIGN KEY (action) REFERENCES action(action_id); 
 ALTER TABLE advert ADD CONSTRAINT FK_advuser FOREIGN KEY (posted_by) REFERENCES user(email); 
+ALTER TABLE review ADD CONSTRAINT FK_revadv FOREIGN KEY (review_advert_id) REFERENCES advert(id);
+ALTER TABLE review ADD CONSTRAINT FK_revuser FOREIGN KEY (email) REFERENCES user(email);
+ALTER TABLE barter ADD CONSTRAINT FK_barteruser FOREIGN KEY (barterer) REFERENCES user(email);
+ALTER TABLE barter ADD CONSTRAINT FK_barter_ad_id FOREIGN KEY (barter_adv_id) REFERENCES advert(id);

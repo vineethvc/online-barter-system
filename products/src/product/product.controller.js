@@ -15,7 +15,6 @@ connection.connect(function(err){
   console.log("connected as id " + connection.threadId);
 });
 
-
 module.exports.create = async (req, res) => {
   var prod_name= req.body.prod_name;
   var prod_desc= req.body.prod_desc;

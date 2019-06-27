@@ -52,6 +52,25 @@ services:
     depends_on:      
       - db
 
+  reviews:
+    build:
+      context: ./reviews
+      dockerfile: Dockerfile
+    ports:
+      - "4001:4001"
+    volumes:
+      - ./reviews:/usr/src/app
+    networks:
+      - app-network
+    environment:
+      DATABASE_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: longnight
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: pass123
+    depends_on:      
+      - db
+
   db:
     build: ./db
     environment:
