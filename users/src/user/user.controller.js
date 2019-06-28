@@ -6,7 +6,7 @@ module.exports.create = async (req, res) => {
   var userPassword = req.body.password;
   var userFirstName = req.body.first_name;
   var userLastName = req.body.last_name;
-
+  var phoneNumber = req.body.phone_number;
   if (userEmail == undefined || userEmail == '') {
     res.send({
       error: 'email cannot be empty'
@@ -17,8 +17,8 @@ module.exports.create = async (req, res) => {
     });
   } else {
     var sql =
-      'INSERT INTO user(email, password, first_name, last_name) VALUES(?, ?, ?, ?);';
-    var values = [userEmail, userPassword, userFirstName, userLastName];
+      'INSERT INTO user(email, password, first_name, last_name, phone_number) VALUES(?, ?, ?, ?, ?);';
+    var values = [userEmail, userPassword, userFirstName, userLastName, phoneNumber];
     connection.query(sql, values, function(err, result) {
       if (err) throw err;
       console.log('creatUser--- ' + result.affectedRows);
@@ -50,10 +50,11 @@ module.exports.update = async (req, res) => {
   var userEmail = req.body.email;
   var userFirstName = req.body.first_name;
   var userLastName = req.body.last_name;
+  var userPhoneNumber = req.body.phone_number;
 
-  var sql = 'UPDATE user set first_name = ?, last_name = ?  WHERE email = ?';
+  var sql = 'UPDATE user set first_name = ?, last_name = ?, phone_number = ?  WHERE email = ?';
 
-  connection.query(sql, [userFirstName, userLastName, userEmail], function(
+  connection.query(sql, [userFirstName, userLastName, userPhoneNumber, userEmail], function(
     err,
     result
   ) {

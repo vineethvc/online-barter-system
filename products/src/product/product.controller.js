@@ -94,7 +94,7 @@ module.exports.list = async (req, res) => {
 
   var valueBody = req.body;
   var conditions = buildConditions(valueBody);
-  var prodQuery = 'SELECT product.product_name,product.product_description,product.cat_id,advert.quantity,advert.image_url,advert.time_stamp,action.action_name,IFNULL(wishlist.wishlist_id, 0) as wishlisted FROM advert LEFT OUTER JOIN product ON advert.product_id = product.id LEFT OUTER JOIN action ON advert.action = action.action_id LEFT OUTER JOIN wishlist ON advert.id = wishlist.advert_id WHERE ' + conditions.where;
+  var prodQuery = 'SELECT product.product_name,product.product_description,product.cat_id,advert.id,advert.quantity,advert.image_url,advert.time_stamp,action.action_name,IFNULL(wishlist.wishlist_id, 0) as wishlisted FROM advert LEFT OUTER JOIN product ON advert.product_id = product.id LEFT OUTER JOIN action ON advert.action = action.action_id LEFT OUTER JOIN wishlist ON advert.id = wishlist.advert_id WHERE ' + conditions.where;
   console.log("product query ----", prodQuery);
 
   connection.query(prodQuery, conditions.values, function(error, results, fields){
@@ -148,25 +148,31 @@ module.exports.viewWishList = async (req, res) => {
     var values = [];
     var conditionsStr;
 
-    if (typeof params.name !== 'undefined') {
+    if (typeof params.user_id !== 'undefined') {
       conditions.push("user_id = ?");
-      values.push(params.name);
+      values.push(params.user_id);
     }
 
     return {
       where: conditions.length ?
-               conditions.join(' AND ') : 'user_id = x',
+               conditions.join(' AND ') : '0',
       values: values
     };
   }
-  //var userId= req.body.userId;
 
   var valueBody = req.body;
-  var wishlistQuery = 'SELECT * from wishlist WHERE '  + conditions.where;
+  var conditions = buildConditions(valueBody);
+  var wishlistQuery = 'SELECT advert.id,product.product_name,product.product_description,product.cat_id,advert.quantity,advert.image_url,advert.time_stamp,action.action_name FROM wishlist LEFT OUTER JOIN advert ON wishlist.advert_id = advert.id LEFT OUTER JOIN product ON advert.product_id = product.id LEFT OUTER JOIN action ON advert.action = action.action_id WHERE '  + conditions.where;
   console.log('wishlistQuery  :  '+wishlistQuery);
   connection.query(wishlistQuery, conditions.values, function(error, results, fields){
     if(error) throw error;
-    res.json(results);
+
+    if(results.length == 0){
+      res.json("No items wishlisted");
+    } else{
+      res.json(results);
+    }
+    
   });
 };
 
