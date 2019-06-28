@@ -23,18 +23,31 @@ module.exports.remove = async (req, res) => {
   res.json(response.data);
 };
 
-module.exports.update = async (req, res) => {
-  const { id } = req.params;
+module.exports.updateTransaction = async (req, res) => {
+ 
+  const response = await axios.post(`${config.PRODUCTS}/updateTransaction`, req.body);
 
-  const response = await axios.put(`${config.PRODUCTS}/${id}`, req.body);
+  res.json(response.data);
+};
+
+module.exports.addWishList = async (req, res) => {
+ 
+  const response = await axios.post(`${config.PRODUCTS}/addWishList`, req.body);
+
+  res.json(response.data);
+};
+
+module.exports.viewWishList = async (req, res) => {
+ 
+  const response = await axios.post(`${config.PRODUCTS}/viewWishList`, req.body);
 
   res.json(response.data);
 };
 
 module.exports.view = async (req, res) => {
-  const { id } = req.params;
-
-  const response = await axios.get(`${config.PRODUCTS}/${id}`);
+  //const { id } = req.params;
+  console.log("In gateway service -------------");
+  const response = await axios.post(`${config.PRODUCTS}/userAds`,req.body);
 
   res.json(response.data);
 };

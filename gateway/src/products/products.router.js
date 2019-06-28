@@ -2,22 +2,32 @@ const express = require('express');
 const catchErrors = require('express-catch-errors');
 
 const router = express.Router();
-const { create, list, remove, update, view } = require('./products.service');
+const { create, list, remove, updateTransaction, view, addWishList, viewWishList } = require('./products.service');
 
 router
   .route('/allAds')
   .post(catchErrors(list))
 router
-  .route('/ad')
+  .route('/createAd')
   .post(catchErrors(create));
 router
   .route('/delete')
   .post(catchErrors(remove));
+router
+  .route('/userAds')
+  .post(catchErrors(view));
 
 router
-  .route('/:id')
-  .get(catchErrors(view))
-  .put(catchErrors(update));
+  .route('/contact')
+  .post(catchErrors(updateTransaction));
   //.delete(catchErrors(remove));
+
+router
+  .route('/addWishList')
+  .post(catchErrors(addWishList));
+
+router
+  .route('/viewWishList')
+  .post(catchErrors(viewWishList));  
 
 module.exports = router;
