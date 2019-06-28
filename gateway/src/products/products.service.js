@@ -44,6 +44,13 @@ module.exports.viewWishList = async (req, res) => {
   res.json(response.data);
 };
 
+module.exports.removeWishList = async (req, res) => {
+ 
+  const response = await axios.post(`${config.PRODUCTS}/removeWishList`, req.body);
+
+  res.json(response.data);
+};
+
 module.exports.view = async (req, res) => {
   //const { id } = req.params;
   console.log("In gateway service -------------");
