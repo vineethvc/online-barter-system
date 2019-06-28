@@ -2,7 +2,7 @@ const express = require('express');
 const catchErrors = require('express-catch-errors');
 
 const router = express.Router();
-const { create, list, remove, update, view } = require('./product.controller');
+const { create, list, remove, updateTransaction, addWishList, viewWishList, view } = require('./product.controller');
 
 router
   .route('/')
@@ -13,11 +13,20 @@ router
 router
   .route('/delete')
   .post(catchErrors(remove));
+router
+  .route('/userAds')
+  .post(catchErrors(view));
 
 router
-  .route('/:id')
-  .get(catchErrors(view))
-  .put(catchErrors(update));
-  
+  .route('/updateTransaction')
+  .post(catchErrors(updateTransaction));
+
+router
+  .route('/addWishList')
+  .post(catchErrors(addWishList));
+
+router
+  .route('/viewWishList')
+  .post(catchErrors(viewWishList));  
 
 module.exports = router;
