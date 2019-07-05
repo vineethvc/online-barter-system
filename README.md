@@ -57,4 +57,4 @@ $ docker-compose down
 | GET/POST| /api/reviews    | reviews operations         |
 | Client  | 3000            | React front-end app        |
 
-![](https://drive.google.com/open?id=1nUHuv3NlMOJvtvO-xxt36CkqvtrApetC)
+![](https://firebasestorage.googleapis.com/v0/b/barterreactapp.appspot.com/o/images%2Fgit.PNG?alt=media&token=28c103a8-ca04-47f1-ba4f-96adf4b2e696)
