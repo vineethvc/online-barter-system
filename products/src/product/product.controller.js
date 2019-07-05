@@ -94,7 +94,9 @@ module.exports.list = async (req, res) => {
 
   var valueBody = req.body;
   var conditions = buildConditions(valueBody);
+
   var prodQuery = 'SELECT advert.id,product.product_name,product.product_description,product.cat_id,advert.posted_by,advert.quantity,advert.image_url,advert.time_stamp,action.action_name,IFNULL(wishlist.wishlist_id, 0) as wishlisted FROM advert LEFT OUTER JOIN product ON advert.product_id = product.id LEFT OUTER JOIN action ON advert.action = action.action_id LEFT OUTER JOIN wishlist ON advert.id = wishlist.advert_id WHERE ' + conditions.where;
+
   console.log("product query ----", prodQuery);
   console.log("values ----", conditions.values);
 
