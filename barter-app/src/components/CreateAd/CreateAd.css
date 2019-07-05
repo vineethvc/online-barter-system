@@ -1,0 +1,30 @@
+.Header {
+    font: 100;
+    color: brown;
+    margin-top: 50px;
+  }
+  .Header > p {
+    text-align: center;
+    font-size: 30px;
+  }
+  .menu {
+    position: relative;
+    overflow: hidden;
+    width: 30%;
+    float: left;
+  }
+  #design {
+    position: relative;
+    overflow: hidden;
+    width: 70%;
+    float: right;
+  }
+  
+  .mem {
+    float: left;
+    width: 60%;
+  }
+  .form-design {
+    margin-bottom: 15px;
+  }
+  
