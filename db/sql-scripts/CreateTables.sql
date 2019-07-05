@@ -46,7 +46,6 @@ CREATE TABLE transaction (
     PRIMARY KEY (transaction_id)
 );
 
-
 ALTER TABLE transaction ADD CONSTRAINT FK_tran_adv FOREIGN KEY (advert_id) REFERENCES advert(id);
 ALTER TABLE transaction ADD CONSTRAINT FK_tran_action FOREIGN KEY (action_id) REFERENCES action(action_id); 
 ALTER TABLE transaction ADD CONSTRAINT FK_tran_user FOREIGN KEY (responded_by) REFERENCES user(email); 
@@ -61,3 +60,20 @@ CREATE TABLE wishlist (
 
 ALTER TABLE wishlist ADD CONSTRAINT FK_wish_adv FOREIGN KEY (advert_id) REFERENCES advert(id);
 ALTER TABLE wishlist ADD CONSTRAINT FK_wish_user FOREIGN KEY (user_id) REFERENCES user(email);
+
+CREATE TABLE barter (
+     id INT NOT NULL AUTO_INCREMENT,
+     barter_adv_id INT NOT NULL,
+     barter_adv_with_id INT NOT NULL,
+     barterer VARCHAR(255) NOT NULL,
+     barteree VARCHAR(255) NOT NULL,
+     barter_duration VARCHAR(255) NOT NULL,
+     barter_status INT NOT NULL,
+     time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+     PRIMARY KEY (id)
+);
+
+ALTER TABLE barter ADD CONSTRAINT FK_adv_id FOREIGN KEY (barter_adv_id) REFERENCES advert(id);
+ALTER TABLE barter ADD CONSTRAINT FK_adv_id_with FOREIGN KEY (barter_adv_with_id) REFERENCES advert(id);
+ALTER TABLE barter ADD CONSTRAINT FK_adv_barterer FOREIGN KEY (barterer) REFERENCES user(email);
+ALTER TABLE barter ADD CONSTRAINT FK_adv_id_barteree FOREIGN KEY (barteree) REFERENCES user(email);

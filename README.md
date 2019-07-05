@@ -14,6 +14,8 @@ $ cd ..
 $ cd gateway
 $ npm install
 $ cd ..
+
+do the node module installations for all services
 ```
 
 * Running scripts
@@ -47,6 +49,12 @@ $ docker-compose down
 
 ### Users Service
 
-| Method | Endpoint        | Description                |
-| ------ | --------------- | -------------------------- |
-| GET    | /api/users      | Retrieves a list of users |
+| Method  | Endpoint        | Description                |
+| ------  | --------------- | -------------------------- |
+| GET/POST| /api/users      | users operations           |
+| GET/POST| /api/barter     | barter operations          |
+| GET/POST| /api/ads        | ads operations             |
+| GET/POST| /api/reviews    | reviews operations         |
+| Client  | 3000            | React front-end app        |
+
+![](https://firebasestorage.googleapis.com/v0/b/barterreactapp.appspot.com/o/images%2Fgit.PNG?alt=media&token=28c103a8-ca04-47f1-ba4f-96adf4b2e696)

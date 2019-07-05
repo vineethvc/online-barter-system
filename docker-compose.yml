@@ -70,6 +70,25 @@ services:
       MYSQL_PASSWORD: pass123
     depends_on:      
       - db
+  
+  barter:
+    build:
+      context: ./barter
+      dockerfile: Dockerfile
+    ports:
+      - "4002:4002"
+    volumes:
+      - ./barter:/usr/src/app
+    networks:
+      - app-network
+    environment:
+      DATABASE_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: longnight
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: pass123
+    depends_on:      
+      - db
 
   db:
     build: ./db
@@ -81,7 +100,19 @@ services:
       DATABASE_HOST: db
     networks:
       - app-network
-
+  
+  react:
+    build: ./barter-app
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    volumes:
+      - ./barter-app/src:/usr/src/app/src
+      - ./barter-app/public:/usr/src/app/public
+    networks:
+      - app-network  
+    
 networks:
   app-network:
     driver: bridge

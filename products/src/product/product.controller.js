@@ -76,13 +76,13 @@ module.exports.list = async (req, res) => {
     } 
 
     if (typeof params.cat_id !== 'undefined') {
-      conditions.push("product.cat_id = ?");
-      values.push(parseInt(params.cat_id));
+      conditions.push("product.cat_id IN (?)");
+      values.push(params.cat_id);
     }
 
     if (typeof params.action !== 'undefined') {
-      conditions.push("action.action_id = ?");
-      values.push(parseInt(params.action));
+      conditions.push("action.action_id IN (?)");
+      values.push(params.action);
     }
 
     return {
@@ -94,8 +94,11 @@ module.exports.list = async (req, res) => {
 
   var valueBody = req.body;
   var conditions = buildConditions(valueBody);
-  var prodQuery = 'SELECT advert.id,product.product_name,product.product_description,product.cat_id,advert.quantity,advert.image_url,advert.time_stamp,action.action_name,IFNULL(wishlist.wishlist_id, 0) as wishlisted FROM advert LEFT OUTER JOIN product ON advert.product_id = product.id LEFT OUTER JOIN action ON advert.action = action.action_id LEFT OUTER JOIN wishlist ON advert.id = wishlist.advert_id WHERE ' + conditions.where;
+
+  var prodQuery = 'SELECT advert.id,product.product_name,product.product_description,product.cat_id,advert.posted_by,advert.quantity,advert.image_url,advert.time_stamp,action.action_name,IFNULL(wishlist.wishlist_id, 0) as wishlisted FROM advert LEFT OUTER JOIN product ON advert.product_id = product.id LEFT OUTER JOIN action ON advert.action = action.action_id LEFT OUTER JOIN wishlist ON advert.id = wishlist.advert_id WHERE ' + conditions.where;
+
   console.log("product query ----", prodQuery);
+  console.log("values ----", conditions.values);
 
   connection.query(prodQuery, conditions.values, function(error, results, fields){
     if(error) throw error;
@@ -221,6 +224,11 @@ module.exports.view = async (req, res) => {
       values.push(params.name);
     }
 
+    if (typeof params.advert_id !== 'undefined') {
+      conditions.push("advert.id IN (?)");
+      values.push(params.advert_id);
+    }
+
     return {
       where: conditions.length ?
                conditions.join(' AND ') : '0',
@@ -231,8 +239,7 @@ module.exports.view = async (req, res) => {
   var valueBody = req.body;
   console.log("Got into method");
   var conditions = buildConditions(valueBody);
-  console.log("Values are ======"+conditions);
-  var userAdQuery = 'SELECT product.product_name,product.product_description,product.cat_id,advert.quantity,action.action_name FROM advert LEFT OUTER JOIN product ON advert.product_id = product.id LEFT OUTER JOIN action ON advert.action = action.action_id WHERE ' + conditions.where;
+  var userAdQuery = 'SELECT advert.id,product.product_name,product.product_description,product.cat_id,advert.posted_by,advert.quantity,advert.image_url,advert.time_stamp,action.action_name FROM advert LEFT OUTER JOIN product ON advert.product_id = product.id LEFT OUTER JOIN action ON advert.action = action.action_id WHERE ' + conditions.where;
   console.log("user Ad Query ----", userAdQuery);
 
   connection.query(userAdQuery, conditions.values, function(error, results, fields){

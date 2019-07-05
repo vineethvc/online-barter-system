@@ -1,0 +1,21 @@
+.Header {
+  font: 100;
+  margin-bottom: 50px;
+  color: brown;
+  margin-top: 50px;
+}
+.Header > h1 {
+  text-align: center;
+  font-size: 1in;
+}
+.Topnav {
+  margin: 3px;
+  margin-bottom: 0ch;
+}
+.Navigation {
+  margin-left: 5px;
+}
+
+.Topnav > h1 {
+  margin-left: 10px;
+}
